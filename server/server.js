@@ -24,9 +24,9 @@ const PORT = process.env.PORT;
 app.use(bodyParser.json());
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: 'smtp.titan.email',
     port: 465,
-    service: 'gmail',
+    service: 'email',
     secure: true,
     auth: {
         user: process.env.EMAIL,
@@ -477,9 +477,9 @@ app.post('/api/sendcertificate', async (req, res) => {
     const { html, email } = req.body;
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: 'smtp.titan.email',
         port: 465,
-        service: 'gmail',
+        service: 'email',
         secure: true,
         auth: {
             user: process.env.EMAIL,
@@ -720,9 +720,9 @@ app.post('/api/downloadreceipt', async (req, res) => {
     const { html, email } = req.body;
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: 'smtp.titan.email',
         port: 465,
-        service: 'gmail',
+        service: 'email',
         secure: true,
         auth: {
             user: process.env.EMAIL,
@@ -761,9 +761,9 @@ app.post('/api/sendreceipt', async (req, res) => {
     }
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: 'smtp.titan.email',
         port: 465,
-        service: 'gmail',
+        service: 'email',
         secure: true,
         auth: {
             user: process.env.EMAIL,
@@ -830,9 +830,9 @@ async function sendRenewEmail(id) {
         const userDetails = await User.findOne({ _id: userId });
 
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
+            host: 'smtp.titan.email',
             port: 465,
-            service: 'gmail',
+            service: 'email',
             secure: true,
             auth: {
                 user: process.env.EMAIL,
@@ -906,9 +906,9 @@ async function updateSubsciption(id, subject) {
 async function sendCancelEmail(email, name, subject) {
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
+        host: 'smtp.titan.email',
         port: 465,
-        service: 'gmail',
+        service: 'email',
         secure: true,
         auth: {
             user: process.env.EMAIL,
@@ -993,9 +993,9 @@ app.post('/api/paypalcancel', async (req, res) => {
             await Subscription.findOneAndDelete({ subscription: id });
 
             const transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
+                host: 'smtp.titan.email',
                 port: 465,
-                service: 'gmail',
+                service: 'email',
                 secure: true,
                 auth: {
                     user: process.env.EMAIL,
@@ -1094,9 +1094,9 @@ app.post('/api/paypalupdateuser', async (req, res) => {
             { $set: { type: plan } }
         ).then(async ress => {
             const transporter = nodemailer.createTransport({
-                host: 'smtp.gmail.com',
+                host: 'smtp.titan.email',
                 port: 465,
-                service: 'gmail',
+                service: 'email',
                 secure: true,
                 auth: {
                     user: process.env.EMAIL,
@@ -1309,9 +1309,9 @@ app.post('/api/razorpaycancel', async (req, res) => {
                 await Subscription.findOneAndDelete({ subscription: id });
 
                 const transporter = nodemailer.createTransport({
-                    host: 'smtp.gmail.com',
+                    host: 'smtp.titan.email',
                     port: 465,
-                    service: 'gmail',
+                    service: 'email',
                     secure: true,
                     auth: {
                         user: process.env.EMAIL,
@@ -1614,9 +1614,9 @@ app.post('/api/stripecancel', async (req, res) => {
         await Subscription.findOneAndDelete({ subscriberId: id });
 
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
+            host: 'smtp.titan.email',
             port: 465,
-            service: 'gmail',
+            service: 'email',
             secure: true,
             auth: {
                 user: process.env.EMAIL,
@@ -1807,9 +1807,9 @@ app.post('/api/paystackcancel', async (req, res) => {
         await Subscription.findOneAndDelete({ subscriberId: code });
 
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
+            host: 'smtp.titan.email',
             port: 465,
-            service: 'gmail',
+            service: 'email',
             secure: true,
             auth: {
                 user: process.env.EMAIL,
@@ -1886,9 +1886,9 @@ app.post('/api/flutterwavecancel', async (req, res) => {
         await Subscription.findOneAndDelete({ subscriberId: token });
 
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
+            host: 'smtp.titan.email',
             port: 465,
-            service: 'gmail',
+            service: 'email',
             secure: true,
             auth: {
                 user: process.env.EMAIL,
