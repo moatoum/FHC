@@ -18,7 +18,7 @@ const SlideSix = () => {
                 <div className="mb-4 md:mb-0 md:mr-4 max-md:text-center">
                     <h2 className="mb-2 text-4xl max-md:text-2xl font-black dark:text-white">Get Started</h2>
                     <p className="flex items-center font-normal max-md:text-xs text-black dark:text-white">
-                        Embark on your learning journey with simplicity Get Started Today.
+                        Embark on your learning journey with simplicity.
                     </p>
                 </div>
                 <div className="flex flex-shrink-0 items-center">
