@@ -1,5 +1,6 @@
+import React, { useEffect } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignIn from './pages/signin';
 import SignUp from './pages/signup';
 import { ToastContainer } from 'react-toastify';
@@ -42,9 +43,14 @@ import Pending from './pages/pending';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { googleClientId } from './constants';
 
-function App() {
-  const externalLandingPageUrl = "https://fikrahub.com/public/courses";
+function LandingRedirect() {
+  useEffect(() => {
+    window.location.href = 'https://fikrahub.com/public/courses';
+  }, []);
+  return null;
+}
 
+function App() {
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
       <Router>
@@ -65,10 +71,7 @@ function App() {
             theme={sessionStorage.getItem('darkMode') === 'true' ? 'dark' : 'light'}
           />
           <Routes>
-            {/* Redirect root path to external landing page */}
-            <Route path="/" element={<Navigate to={externalLandingPageUrl} replace />} />
-            
-            {/* Main App */}
+            <Route path="/" element={<LandingRedirect />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path='/forgot' element={<ForgotPassword />} />
@@ -94,8 +97,6 @@ function App() {
             <Route path='/refund' element={<RefundPolicy />} />
             <Route path='/billing' element={<BillingPolicy />} />
             <Route path='/pending' element={<Pending />} />
-            
-            {/* Admin Panel */}
             <Route path='/dashBoard' element={<DashBoard />} />
             <Route path='/users' element={<Users />} />
             <Route path='/courses' element={<Courses />} />
@@ -107,8 +108,6 @@ function App() {
             <Route path='/editcancellation' element={<Cancellation />} />
             <Route path='/editrefund' element={<Refund />} />
             <Route path='/editbilling' element={<Billing />} />
-            
-            {/* Catch-all route for 404 errors */}
             <Route path="*" element={<Error />} />
           </Routes>
         </div>
