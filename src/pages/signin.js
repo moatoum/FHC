@@ -84,6 +84,7 @@ const SignIn = () => {
 
     useEffect(() => {
         console.log(state);
+        showToast(state);
         const email = sessionStorage.getItem('email');
         const auth = sessionStorage.getItem('auth');
         if (email && auth && state.mainTopic) {
