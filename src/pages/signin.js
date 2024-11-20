@@ -82,16 +82,7 @@ const SignIn = () => {
     };
 
     useEffect(() => {
-        const email = sessionStorage.getItem('email');
-        const auth = sessionStorage.getItem('auth');
-        if (email && auth && state.mainTopic) {
-            navigate('/topics', { state: state });
-        } else {
-            handleAutoLoginOrSignup();
-        }
-    }, [state]);
-
-    useEffect(() => {
+        console.log(state);
         const email = sessionStorage.getItem('email');
         const auth = sessionStorage.getItem('auth');
         if (email && auth && state.mainTopic) {
