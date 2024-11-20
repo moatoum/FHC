@@ -16,6 +16,7 @@ const Header = ({ isHome }) => {
 
   useEffect(() => {
     if (isHome && sessionStorage.getItem('uid') === null) {
+      console.log('check logout');
       navigate("/signin");
     }
     async function dashboardData() {
