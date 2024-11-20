@@ -22,15 +22,15 @@ const SignIn = () => {
 
     const navigate = useNavigate();
 
-    const state = {
-        jsonData: JSON.parse(localStorage.getItem('jsonData')),
-        mainTopic: localStorage.getItem('mainTopic'),
-        type: localStorage.getItem('type'),
-    };
-
     const getQueryParam = (param) => {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
+    };
+
+    const state = {
+        jsonData: JSON.parse(decodeURIComponent(getQueryParam('jsonData'))),
+        mainTopic: getQueryParam('mainTopic'),
+        type: getQueryParam('type')
     };
 
     const handleAutoLoginOrSignup = async () => {
@@ -82,15 +82,24 @@ const SignIn = () => {
     };
 
     useEffect(() => {
-        console.log(state);
         const email = sessionStorage.getItem('email');
         const auth = sessionStorage.getItem('auth');
         if (email && auth && state.mainTopic) {
-            navigate('/topics', { replace: true });
+            navigate('/topics', { state: state });
         } else {
             handleAutoLoginOrSignup();
         }
     }, [state]);
+
+    useEffect(() => {
+        const email = sessionStorage.getItem('email');
+        const auth = sessionStorage.getItem('auth');
+        if (email && auth && state.mainTopic) {
+            navigate('/topics', { state: state });
+        } else {
+            handleAutoLoginOrSignup();
+        }
+    }, []);
 
     function redirectSignUp() {
         navigate("/signup");
