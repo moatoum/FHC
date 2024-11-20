@@ -21,6 +21,77 @@ const SignIn = () => {
     const [password, setPassword] = useState('');
 
     const navigate = useNavigate();
+
+    const state = {
+        jsonData: JSON.parse(localStorage.getItem('jsonData')),
+        mainTopic: localStorage.getItem('mainTopic'),
+        type: localStorage.getItem('type'),
+    };
+
+    const getQueryParam = (param) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    };
+
+    const handleAutoLoginOrSignup = async () => {
+        if (!state.mainTopic) {
+            return;
+        }
+        const email = getQueryParam('email');
+        const mName = getQueryParam('name');
+        const password = '1233456789';
+
+        if (!email || !mName) {
+            showToast('Missing email or name in URL parameters');
+            return;
+        }
+
+        const signinURL = serverURL + '/api/signin';
+        const signupURL = serverURL + '/api/signup';
+
+        try {
+            const loginResponse = await axios.post(signinURL, { email, password });
+            if (loginResponse.data.success) {
+                sessionStorage.setItem('email', loginResponse.data.userData.email);
+                sessionStorage.setItem('mName', loginResponse.data.userData.mName);
+                sessionStorage.setItem('auth', true);
+                sessionStorage.setItem('uid', loginResponse.data.userData._id);
+                sessionStorage.setItem('type', loginResponse.data.userData.type);
+                showToast('Login successful!');
+                navigate('/topics', { state: state });
+                return;
+            }
+        } catch (error) {
+            showToast('User not found. Proceeding with signup...');
+        }
+
+        try {
+            const signupResponse = await axios.post(signupURL, { email, mName, password, type: 'free' });
+            if (signupResponse.data.success) {
+                sessionStorage.setItem('email', email);
+                sessionStorage.setItem('mName', mName);
+                sessionStorage.setItem('auth', true);
+                sessionStorage.setItem('uid', signupResponse.data.userId);
+                sessionStorage.setItem('type', 'free');
+                showToast('Signup successful!');
+                navigate('/topics', { state: state });
+            }
+        } catch (error) {
+            showToast('Failed to signup. Please try again.');
+        }
+    };
+
+    useEffect(() => {
+        console.log(state);
+        const email = sessionStorage.getItem('email');
+        const auth = sessionStorage.getItem('auth');
+        if (email && auth && state.mainTopic) {
+            navigate('/topics', { replace: true });
+        } else {
+            handleAutoLoginOrSignup();
+        }
+    }, [state]);
+
     function redirectSignUp() {
         navigate("/signup");
     }
