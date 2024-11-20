@@ -14,7 +14,7 @@ import { jwtDecode } from "jwt-decode";
 import FacebookLogin from '@greatsumini/react-facebook-login';
 
 const SignIn = () => {
-
+    console.log(123);
     const storedTheme = sessionStorage.getItem('darkMode');
     const [email, setEmail] = useState('');
     const [processing, setProcessing] = useState(false);
@@ -34,6 +34,7 @@ const SignIn = () => {
     };
 
     const handleAutoLoginOrSignup = async () => {
+        console.log('handleAutoLoginOrSignup');
         if (!state.mainTopic) {
             return;
         }
