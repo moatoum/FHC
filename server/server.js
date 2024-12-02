@@ -425,7 +425,7 @@ app.post('/api/course', async (req, res) => {
         try {
             const newCourse = new Course({ user, content, type, mainTopic, photo });
             await newCourse.save();
-            res.json({ success: true, message: 'Course created successfully', courseId: newCourse._id });
+            res.json({ success: true, message: 'Course created successfully', courseId: newCourse._id, photo: newCourse.photo });
         } catch (error) {
             res.status(500).json({ success: false, message: 'Internal server error' });
         }
