@@ -1426,6 +1426,27 @@ app.get('/api/getcourses', async (req, res) => {
     }
 });
 
+// GET COURSE INFO BY ID
+app.get('/api/getCourseById', async (req, res) => {
+    try {
+        const { id } = req.query;
+        if (!id) {
+            return res.status(400).json({ message: 'Course ID is required' });
+        }
+
+        const course = await Course.findById(id);
+
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found' });
+        }
+
+        res.json(course);
+    } catch (error) {
+        res.status(500).json({ message: 'An error occurred', error: error.message });
+    }
+});
+
+
 //GET PAID USERS
 app.get('/api/getpaid', async (req, res) => {
     try {
