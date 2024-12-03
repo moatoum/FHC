@@ -515,6 +515,35 @@ app.get('/api/courses', async (req, res) => {
     }
 });
 
+// CHECK IF ACCOUNT EXISTS BY EMAIL
+app.post('/api/check-account', async (req, res) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (user) {
+            res.json({
+                success: true,
+                message: 'User found',
+                userData: {
+                    email: user.email,
+                    password: user.password,
+                    mName: user.mName,
+                    _id: user._id,
+                    type: user.type,
+                },
+            });
+        } else {
+            res.json({
+                success: false,
+                message: 'User not found',
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
 //GET PROFILE DETAILS
 app.post('/api/profile', async (req, res) => {
     const { email, mName, password, uid } = req.body;
