@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar } from 'flowbite-react';
 import { Flowbite } from 'flowbite-react';
-import { name, serverURL, websiteURL } from '../constants';
+import { name, serverURL, websiteURL, mainURL } from '../constants';
 import DarkModeToggle from './DarkModeToggle';
 import LogoComponent from './LogoComponent';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { Button } from 'flowbite-react';
+import { educationURL } from '../constants';
+import { HiHome } from "react-icons/hi";
 
 const Header = ({ isHome }) => {
 
@@ -35,6 +38,10 @@ const Header = ({ isHome }) => {
       dashboardData();
     }
   });
+
+  function redirectFikraHubPage() {
+    window.location.href = educationURL;
+  }
 
   function redirectSignIn() {
     navigate("/signin");
@@ -88,18 +95,20 @@ const Header = ({ isHome }) => {
       {!isHome ?
         <>
           <Navbar fluid className=' py-3 dark:bg-black'>
-            <Navbar.Brand href={websiteURL} className="ml-1">
+            <Navbar.Brand href={mainURL} className="ml-1">
               <LogoComponent isDarkMode={storedTheme} />
               <span className="self-center whitespace-nowrap text-2xl font-black dark:text-white ">{name}</span>
             </Navbar.Brand>
             <div className="flex md:hidden justify-center items-center">
-              <DarkModeToggle className='inline-flex items-cente md:hidden' />
+              <DarkModeToggle className='inline-flex items-center md:hidden' />
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
               <Navbar.Toggle className='inline-flex items-center rounded-lg p-2 text-sm text-black hover:bg-white focus:outline-none focus:ring-0 focus:ring-gray-200 dark:text-white dark:hover:bg-black dark:focus:ring-gray-600 md:hidden' />
             </div>
             <Navbar.Collapse>
               <div className="hidden md:flex justify-center items-center">
                 <DarkModeToggle />
               </div>
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white  hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectPricingTwo}>Pricing</Navbar.Link>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectFeatures}>Features</Navbar.Link>
               <Navbar.Link onClick={redirectSignIn} className='border-b-0 text-black  font-normal mb-2 mt-2 border-black dark:text-white dark:border-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ borderWidth: '1px', paddingLeft: '15px', paddingRight: '15px', paddingBottom: '10px', paddingTop: '10px' }}>SignIn</Navbar.Link>
@@ -110,18 +119,20 @@ const Header = ({ isHome }) => {
         :
         <>
           <Navbar fluid className=' py-3 dark:bg-black border-b border-black dark:border-white'>
-            <Navbar.Brand href={websiteURL} className="ml-1">
+            <Navbar.Brand href={mainURL} className="ml-1">
               <LogoComponent isDarkMode={storedTheme} />
               <span className="self-center whitespace-nowrap text-2xl font-black dark:text-white ">{name}</span>
             </Navbar.Brand>
             <div className="flex md:hidden justify-center items-center">
               <DarkModeToggle className='inline-flex items-cente md:hidden' />
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
               <Navbar.Toggle className='inline-flex items-center rounded-lg p-2 text-sm text-black hover:bg-white focus:outline-none focus:ring-0 focus:ring-gray-200 dark:text-white dark:hover:bg-black dark:focus:ring-gray-600 md:hidden' />
             </div>
             <Navbar.Collapse>
               <div className="hidden md:flex justify-center items-center">
                 <DarkModeToggle />
               </div>
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white  hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectHome}>Home</Navbar.Link>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectProfile}>Profile</Navbar.Link>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={Logout}>Logout</Navbar.Link>

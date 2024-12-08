@@ -2,7 +2,7 @@ import React from 'react';
 import { Footer } from 'flowbite-react';
 import Logo from '../res/img/logo.svg';
 import DarkLogo from '../res/img/darkLogo.svg';
-import { company, websiteURL } from '../constants';
+import { company, mainURL } from '../constants';
 import { useNavigate } from 'react-router-dom';
 
 const Footers = () => {
@@ -16,7 +16,7 @@ const Footers = () => {
         <Footer.Divider className="border-black dark:border-white" />
         <Footer.Copyright
           className="text-black dark:text-white font-bold"
-          href={websiteURL}
+          href={mainURL}
           by={company}
           year={2024}
         />

@@ -373,7 +373,15 @@ app.post('/api/generate', async (req, res) => {
 app.post('/api/image', async (req, res) => {
     const receivedData = req.body;
     const promptString = receivedData.prompt;
-    gis(promptString, logResults);
+
+    const opts = {
+        searchTerm: promptString,
+        queryStringAddition: '&imgsz=small',
+        filterOutDomains: ['gstatic.com'],
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',  // User-Agent tùy chỉnh
+    };
+
+    gis(opts, logResults);
     function logResults(error, results) {
         if (error) {
             //ERROR
@@ -382,7 +390,7 @@ app.post('/api/image', async (req, res) => {
             res.status(200).json({ url: results[0].url });
         }
     }
-})
+});
 
 //GET VIDEO 
 app.post('/api/yt', async (req, res) => {

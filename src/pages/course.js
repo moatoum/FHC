@@ -11,13 +11,15 @@ import YouTube from 'react-youtube';
 import { toast } from 'react-toastify';
 import { logo, name, serverURL } from '../constants';
 import axios from 'axios';
+import { Button } from 'flowbite-react';
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import html2pdf from 'html2pdf.js';
-import { HiDownload } from "react-icons/hi";
+import { HiDownload, HiHome } from "react-icons/hi";
+import { educationURL } from '../constants';
 
 const Course = () => {
 
@@ -203,6 +205,10 @@ const Course = () => {
         height: '250px',
         width: '100%',
     };
+
+    function redirectFikraHubPage() {
+        window.location.href = educationURL;
+    }
 
     async function finish() {
         if (sessionStorage.getItem('first') === 'true') {
@@ -791,6 +797,7 @@ const Course = () => {
                                     </Navbar.Brand>
                                     <div className='flex md:hidden justify-center items-center'>
                                         <DarkModeToggle className='inline-flex items-center md:hidden' />
+                                        <Button onClick={redirectFikraHubPage} class="course-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
                                         {isSidebarOpen ? (
                                             <FiX
                                                 onClick={toggleSidebar}
@@ -810,6 +817,7 @@ const Course = () => {
                                     <Navbar.Collapse>
                                         <div className='hidden md:flex justify-center items-center mb-2 mt-2'>
                                             <DarkModeToggle />
+                                            <Button onClick={redirectFikraHubPage} class="course-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
                                         </div>
                                     </Navbar.Collapse>
                                 </Navbar>
@@ -912,6 +920,7 @@ const Course = () => {
                                 <Navbar.Collapse>
                                     <div className='hidden md:flex justify-center items-center mb-2 mt-2'>
                                         <DarkModeToggle />
+                                        <Button onClick={redirectFikraHubPage} class="course-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
                                     </div>
                                 </Navbar.Collapse>
                             </Navbar>

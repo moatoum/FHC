@@ -1,8 +1,10 @@
 //BRAND
-export const name = 'AiCourse';
-export const company = 'Spacester';
-export const websiteURL = 'http://localhost:3000';
-export const serverURL = 'http://localhost:5000';
+export const name = 'Fikra Academy';
+export const company = 'FikraHub';
+export const websiteURL = 'https://courses.fikrahub.com';
+export const mainURL = 'https://edu.fikrahub.com';
+export const educationURL = 'https://edu.fikrahub.com/dashboard/user/student';
+export const serverURL = 'https://fikracourses.onrender.com';
 export const logo = 'https://firebasestorage.googleapis.com/v0/b/india-bd34b.appspot.com/o/artificial-intelligence.png?alt=media&token=2dc0da1c-12d0-4dd2-b908-cb8e57fcf3f0';
 export const razorpayEnabled = true;
 export const paypalEnabled = true;

@@ -14,8 +14,6 @@ import { jwtDecode } from "jwt-decode";
 import FacebookLogin from '@greatsumini/react-facebook-login';
 
 const SignIn = () => {
-    console.log(123);
-    showToast(123);
     const storedTheme = sessionStorage.getItem('darkMode');
     const [email, setEmail] = useState('');
     const [processing, setProcessing] = useState(false);
@@ -31,67 +29,107 @@ const SignIn = () => {
     const state = {
         jsonData: JSON.parse(decodeURIComponent(getQueryParam('jsonData'))),
         mainTopic: getQueryParam('mainTopic'),
-        type: getQueryParam('type')
+        type: getQueryParam('type'),
+        apiUrl: getQueryParam('apiUrl'),
+        end: getQueryParam('end'),
+        completed: getQueryParam('completed'),
+        courseId: getQueryParam('courseId'),
     };
 
     const handleAutoLoginOrSignup = async () => {
-        console.log('handleAutoLoginOrSignup');
         if (!state.mainTopic) {
             return;
         }
         const email = getQueryParam('email');
         const mName = getQueryParam('name');
-        const password = '1233456789';
-
+        const password = '123456789';
+    
         if (!email || !mName) {
             showToast('Missing email or name in URL parameters');
             return;
         }
-
+    
+        const checkAccountURL = serverURL + '/api/check-account';
         const signinURL = serverURL + '/api/signin';
         const signupURL = serverURL + '/api/signup';
-
+    
         try {
-            const loginResponse = await axios.post(signinURL, { email, password });
-            if (loginResponse.data.success) {
-                sessionStorage.setItem('email', loginResponse.data.userData.email);
-                sessionStorage.setItem('mName', loginResponse.data.userData.mName);
-                sessionStorage.setItem('auth', true);
-                sessionStorage.setItem('uid', loginResponse.data.userData._id);
-                sessionStorage.setItem('type', loginResponse.data.userData.type);
-                showToast('Login successful!');
-                navigate('/topics', { state: state });
-                return;
+            const checkResponse = await axios.post(checkAccountURL, { email });
+    
+            if (checkResponse.data.success) {
+                const userData = checkResponse.data.userData;
+    
+                const loginResponse = await axios.post(signinURL, {
+                    email: userData.email,
+                    password: userData.password,
+                });
+    
+                if (loginResponse.data.success) {
+                    sessionStorage.setItem('email', userData.email);
+                    sessionStorage.setItem('mName', userData.mName);
+                    sessionStorage.setItem('auth', true);
+                    sessionStorage.setItem('uid', userData._id);
+                    sessionStorage.setItem('type', userData.type);
+                    showToast('Login successful!');
+                    handleCourse(state);
+                    return;
+                }
+            } else {
+                const signupResponse = await axios.post(signupURL, {
+                    email,
+                    mName,
+                    password,
+                    type: 'free',
+                });
+    
+                if (signupResponse.data.success) {
+                    sessionStorage.setItem('email', email);
+                    sessionStorage.setItem('mName', mName);
+                    sessionStorage.setItem('auth', true);
+                    sessionStorage.setItem('uid', signupResponse.data.userId);
+                    sessionStorage.setItem('type', 'free');
+                    showToast('Signup successful!');
+                    handleCourse(state);
+                }
             }
         } catch (error) {
-            showToast('User not found. Proceeding with signup...');
-        }
-
-        try {
-            const signupResponse = await axios.post(signupURL, { email, mName, password, type: 'free' });
-            if (signupResponse.data.success) {
-                sessionStorage.setItem('email', email);
-                sessionStorage.setItem('mName', mName);
-                sessionStorage.setItem('auth', true);
-                sessionStorage.setItem('uid', signupResponse.data.userId);
-                sessionStorage.setItem('type', 'free');
-                showToast('Signup successful!');
-                navigate('/topics', { state: state });
-            }
-        } catch (error) {
-            showToast('Failed to signup. Please try again.');
+            showToast('Failed to process login/signup. Please try again.');
+            console.error(error);
         }
     };
+    
+
+    const handleCourse = (state) => {
+        const { jsonData, mainTopic, type, courseId, completed, end} = state;
+        if (!courseId) {
+            navigate('/topics', { state: state });
+            return;
+        }
+        const jsonDataObj = JSON.parse(jsonData);
+        sessionStorage.setItem('courseId', courseId);
+        sessionStorage.setItem('first', completed);
+        sessionStorage.setItem('jsonData', JSON.stringify(jsonDataObj));
+        let ending = '';
+        if (completed !== 'false') {
+            ending = end;
+        }
+        navigate('/course', { state: { jsonData: jsonDataObj, mainTopic: mainTopic.toUpperCase(), type: type.toLowerCase(), courseId: courseId, end: ending } });  
+    }
 
     useEffect(() => {
-        console.log(state);
         showToast(state);
         const email = sessionStorage.getItem('email');
         const auth = sessionStorage.getItem('auth');
         if (email && auth && state.mainTopic) {
-            navigate('/topics', { state: state });
+            handleCourse(state);
         } else {
-            handleAutoLoginOrSignup();
+            if (state.mainTopic) {
+                handleAutoLoginOrSignup();
+            } else {
+                if (sessionStorage.getItem('auth')) {
+                    redirectHome();
+                }
+            }
         }
     }, []);
 
@@ -106,14 +144,6 @@ const SignIn = () => {
     function redirectHome() {
         navigate("/home");
     }
-
-    useEffect(() => {
-
-        if (sessionStorage.getItem('auth')) {
-            redirectHome();
-        }
-
-    }, []);
 
     const showToast = async (msg) => {
         setProcessing(false);
@@ -192,9 +222,12 @@ const SignIn = () => {
                             <Button isProcessing={processing} processingSpinner={<AiOutlineLoading className="h-6 w-6 animate-spin" />} className='items-center justify-center text-center dark:bg-white dark:text-black bg-black text-white font-bold rounded-none w-full enabled:hover:bg-black enabled:focus:bg-black enabled:focus:ring-transparent dark:enabled:hover:bg-white dark:enabled:focus:bg-white dark:enabled:focus:ring-transparent' type="submit">Submit</Button>
                             <p onClick={redirectSignUp} className='text-center font-normal text-black underline py-4  dark:text-white'>Don't have an account ? SignUp</p>
 
-                            <GoogleLogin
+                            {/* <GoogleLogin
                                 theme='outline'
                                 type='standard'
+                                style={{
+                                    display: 'none'
+                                }}
                                 width={400}
                                 onSuccess={async (credentialResponse) => {
                                     const decoded = jwtDecode(credentialResponse.credential);
@@ -223,11 +256,12 @@ const SignIn = () => {
                                 onError={() => {
                                     showToast('Internal Server Error');
                                 }}
-                            />
+                            /> */}
 
                             <FacebookLogin
                                 appId={facebookClientId}
                                 style={{
+                                    display: 'none',
                                     backgroundColor: '#4267b2',
                                     color: '#fff',
                                     fontSize: '15px',

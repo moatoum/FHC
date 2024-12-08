@@ -12,12 +12,11 @@ const Topics = () => {
 
     const { state } = useLocation();
     const [processing, setProcessing] = useState(false);
-    const { jsonData, mainTopic, type } = state || {};
+    const { jsonData, mainTopic, type, apiUrl } = state || {};
 
     const navigate = useNavigate();
 
     useEffect(() => {
-
         if (!jsonData) {
             navigate("/create");
         }
@@ -109,23 +108,45 @@ const Topics = () => {
     async function sendData(image, theory) {
         jsonData[mainTopic][0].subtopics[0].theory = theory;
         jsonData[mainTopic][0].subtopics[0].image = image;
-
+    
         const user = sessionStorage.getItem('uid');
         const content = JSON.stringify(jsonData);
         const postURL = serverURL + '/api/course';
         const response = await axios.post(postURL, { user, content, type, mainTopic });
-
+    
         if (response.data.success) {
             showToast(response.data.message);
             sessionStorage.setItem('courseId', response.data.courseId);
             sessionStorage.setItem('first', response.data.completed);
             sessionStorage.setItem('jsonData', JSON.stringify(jsonData));
-            navigate('/course', { state: { jsonData: jsonData, mainTopic: mainTopic.toUpperCase(), type: type.toLowerCase(), courseId: response.data.courseId, end: '' } });
+    
+            if (apiUrl) {
+                // Call the Laravel API to create a course
+                let data = {
+                    courses_id: response.data.courseId,
+                    email: sessionStorage.getItem('email'),
+                    status: 'active',
+                    image_url: response.data.photo,
+                    topic: mainTopic,
+                };
+    
+                try {
+                    const laravelResponse = await axios.post(apiUrl, data);
+                    if (laravelResponse.data.success) {
+                        console.log("Laravel course creation successful:", laravelResponse.data);
+                    } else {
+                        console.error("Error creating course in Laravel:", laravelResponse.data.message);
+                    }
+                } catch (error) {
+                    console.error("Error calling Laravel API:", error.message);
+                }
+            }
+    
+            navigate('/course', { state: { jsonData: jsonData, mainTopic: mainTopic.toUpperCase(), type: type ? type.toLowerCase() : '', courseId: response.data.courseId, end: '' } });
         } else {
-            sendData(image, theory)
+            sendData(image, theory);
         }
-
-    }
+    }    
 
     async function sendDataVideo(image, theory) {
         jsonData[mainTopic][0].subtopics[0].theory = theory;
@@ -141,7 +162,7 @@ const Topics = () => {
             sessionStorage.setItem('courseId', response.data.courseId);
             sessionStorage.setItem('first', response.data.completed);
             sessionStorage.setItem('jsonData', JSON.stringify(jsonData));
-            navigate('/course', { state: { jsonData: jsonData, mainTopic: mainTopic.toUpperCase(), type: type.toLowerCase(), courseId: response.data.courseId, end: '' } });
+            navigate('/course', { state: { jsonData: jsonData, mainTopic: mainTopic.toUpperCase(), type: type ? type.toLowerCase() : '', courseId: response.data.courseId, end: '' } });
         } else {
             sendDataVideo(image, theory)
         }
