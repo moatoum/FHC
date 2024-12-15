@@ -1453,6 +1453,29 @@ app.get('/api/getusers', async (req, res) => {
     }
 });
 
+// Convert to base 64
+app.get('/convert-to-base64', async (req, res) => {
+    const { url } = req.query;
+
+    if (!url) {
+        return res.status(400).json({ error: 'URL is required' });
+    }
+
+    try {
+        const response = await axios.get(url, {
+            responseType: 'arraybuffer',
+        });
+
+        const contentType = response.headers['content-type'];
+        const base64 = Buffer.from(response.data, 'binary').toString('base64');
+        const base64Url = `data:${contentType};base64,${base64}`;
+
+        res.json({ base64Url });
+    } catch (error) {
+        res.status(500).json({ error: 'Error converting image to Base64' });
+    }
+});
+
 //GET COURES
 app.get('/api/getcourses', async (req, res) => {
     try {
