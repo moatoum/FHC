@@ -101,14 +101,14 @@ const Header = ({ isHome }) => {
             </Navbar.Brand>
             <div className="flex md:hidden justify-center items-center">
               <DarkModeToggle className='inline-flex items-center md:hidden' />
-              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Dashboard</span></Button>
               <Navbar.Toggle className='inline-flex items-center rounded-lg p-2 text-sm text-black hover:bg-white focus:outline-none focus:ring-0 focus:ring-gray-200 dark:text-white dark:hover:bg-black dark:focus:ring-gray-600 md:hidden' />
             </div>
             <Navbar.Collapse>
               <div className="hidden md:flex justify-center items-center">
                 <DarkModeToggle />
               </div>
-              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Dashboard</span></Button>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white  hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectPricingTwo}>Pricing</Navbar.Link>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectFeatures}>Features</Navbar.Link>
               <Navbar.Link onClick={redirectSignIn} className='border-b-0 text-black  font-normal mb-2 mt-2 border-black dark:text-white dark:border-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ borderWidth: '1px', paddingLeft: '15px', paddingRight: '15px', paddingBottom: '10px', paddingTop: '10px' }}>SignIn</Navbar.Link>
@@ -125,14 +125,14 @@ const Header = ({ isHome }) => {
             </Navbar.Brand>
             <div className="flex md:hidden justify-center items-center">
               <DarkModeToggle className='inline-flex items-cente md:hidden' />
-              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Dashboard</span></Button>
               <Navbar.Toggle className='inline-flex items-center rounded-lg p-2 text-sm text-black hover:bg-white focus:outline-none focus:ring-0 focus:ring-gray-200 dark:text-white dark:hover:bg-black dark:focus:ring-gray-600 md:hidden' />
             </div>
             <Navbar.Collapse>
               <div className="hidden md:flex justify-center items-center">
                 <DarkModeToggle />
               </div>
-              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Homepage</span></Button>
+              <Button onClick={redirectFikraHubPage} class="topic-back text-white bg-black flex items-center"><HiHome size={20} class="mr-1" /><span class="hidden md:flex size-20">Back to Dashboard</span></Button>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white  hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectHome}>Home</Navbar.Link>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={redirectProfile}>Profile</Navbar.Link>
               <Navbar.Link className='border-b-0 text-black  font-normal mb-2 mt-2 dark:text-white hover:bg-white dark:hover:bg-black hover:text-black md:hover:text-black dark:hover:text-white dark:md:hover:text-white' style={{ paddingLeft: '0px', paddingRight: '0px', paddingBottom: '10px', paddingTop: '10px' }} onClick={Logout}>Logout</Navbar.Link>

@@ -1454,7 +1454,7 @@ app.get('/api/getusers', async (req, res) => {
 });
 
 // Convert to base 64
-app.get('/convert-to-base64', async (req, res) => {
+app.get('/api/convert-to-base64', async (req, res) => {
     const { url } = req.query;
 
     if (!url) {
