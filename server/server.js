@@ -320,11 +320,13 @@ app.post('/api/prompt', async (req, res) => {
 
     await model.generateContent(prompt).then(result => {
         const response = result.response;
+        console.log("Response:", response);
         const generatedText = response.text();
         res.status(200).json({ generatedText });
     }).catch(error => {
-        res.status(500).json({ success: false, message: 'Internal server error', error: error });
-    })
+        console.error("API Error:", error);
+        res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+    });    
 });
 
 //GET GENERATE THEORY
