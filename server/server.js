@@ -319,25 +319,26 @@ app.post('/api/prompt', async (req, res) => {
         },
     ];
 
-    const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings });
-
-    const prompt = promptString;
-    await model.generateContent(prompt)
-        .then(result => {
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings });
+    
+        const prompt = promptString;
+        const result = await model.generateContent(prompt);
+    
+        console.log("API Response:", result); // Kiểm tra kết quả API trả về
+    
         const response = result.response;
-        const generatedText = response.text();
-        res.status(200).json({ generatedText })
-        .catch(error => {
-            console.error("Error from API:", error); // Log lỗi chi tiết
-            res.status(500).json({ 
-                success: false, 
-                message: 'Internal server error model', 
-                error: error.message || error 
-            });
+        const generatedText = await response.text(); // Phải dùng await vì response.text() là async
+    
+        res.status(200).json({ generatedText });
+    } catch (error) {
+        console.error("Error from API:", error); // Log lỗi chi tiết
+        res.status(500).json({ 
+            success: false, 
+            message: 'Internal server error',
+            error: error.message || error 
         });
-    }).catch(error => {
-        res.status(500).json({ success: false, message: 'Internal server error general', error: error });
-    })
+    }    
 });
 
 //GET GENERATE THEORY
