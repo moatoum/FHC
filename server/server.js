@@ -323,7 +323,7 @@ app.post('/api/prompt', async (req, res) => {
         const generatedText = response.text();
         res.status(200).json({ generatedText });
     }).catch(error => {
-        res.status(500).json({ success: false, message: 'Internal server error' });
+        res.status(500).json({ success: false, message: 'Internal server error', error: error });
     })
 });
 
