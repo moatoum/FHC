@@ -434,24 +434,44 @@ app.post('/api/transcript', async (req, res) => {
 
 //STORE COURSE
 app.post('/api/course', async (req, res) => {
-    const { user, content, type, mainTopic } = req.body;
+    try {
+        const { user, content, type, mainTopic } = req.body;
 
-    unsplash.search.getPhotos({
-        query: mainTopic,
-        page: 1,
-        perPage: 1,
-        orientation: 'landscape',
-    }).then(async (result) => {
-        const photos = result.response.results;
-        const photo = photos[0].urls.regular
+        // Gọi API Unsplash trong try-catch để bắt lỗi
+        let photo = null;
         try {
-            const newCourse = new Course({ user, content, type, mainTopic, photo });
-            await newCourse.save();
-            res.json({ success: true, message: 'Course created successfully', courseId: newCourse._id, photo: newCourse.photo });
-        } catch (error) {
-            res.status(500).json({ success: false, message: 'Internal server error' });
+            const result = await unsplash.search.getPhotos({
+                query: mainTopic,
+                page: 1,
+                perPage: 1,
+                orientation: 'landscape',
+            });
+
+            if (result.response && result.response.results.length > 0) {
+                photo = result.response.results[0].urls.regular;
+            } else {
+                throw new Error("No photos found from Unsplash");
+            }
+        } catch (unsplashError) {
+            console.error("Error fetching image from Unsplash:", unsplashError);
+            return res.status(500).json({ success: false, message: 'Failed to fetch image from Unsplash', error: unsplashError.message });
         }
-    })
+
+        // Lưu course vào database
+        const newCourse = new Course({ user, content, type, mainTopic, photo });
+
+        await newCourse.save();
+
+        res.json({
+            success: true,
+            message: 'Course created successfully',
+            courseId: newCourse._id,
+            photo: newCourse.photo
+        });
+    } catch (error) {
+        console.error("Error creating course:", error);
+        res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
+    }
 });
 
 //UPDATE COURSE
