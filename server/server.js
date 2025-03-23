@@ -289,6 +289,11 @@ app.post('/api/reset-password', async (req, res) => {
     }
 });
 
+app.get('/api/test', (req, res) => {
+    console.log("Received data:", req.body);
+    res.json({ success: true, message: "Test route working" });
+});
+
 //GET DATA FROM MODEL
 app.post('/api/prompt', async (req, res) => {
     const receivedData = req.body;
