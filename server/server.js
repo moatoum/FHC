@@ -320,7 +320,7 @@ app.post('/api/prompt', async (req, res) => {
     ];
 
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash", safetySettings });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
     
         const prompt = promptString;
         const result = await model.generateContent(prompt);
@@ -366,7 +366,7 @@ app.post('/api/generate', async (req, res) => {
         },
     ];
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash", safetySettings });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
 
     const prompt = promptString
 
@@ -2087,7 +2087,7 @@ app.post('/api/chat', async (req, res) => {
         },
     ];
 
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash", safetySettings });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
 
     const prompt = promptString;
 
