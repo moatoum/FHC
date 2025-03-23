@@ -326,7 +326,7 @@ app.post('/api/prompt', async (req, res) => {
             console.error("Error from API:", error); // Log lỗi chi tiết
             res.status(500).json({ 
                 success: false, 
-                message: 'Internal server error', 
+                message: 'Internal server error model', 
                 error: error.message || error 
             });
         });
