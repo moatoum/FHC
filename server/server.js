@@ -317,16 +317,15 @@ app.post('/api/prompt', async (req, res) => {
     const model = genAI.getGenerativeModel({ model: "gemini-pro", safetySettings });
 
     const prompt = promptString;
-
+    console.log(prompt);
     await model.generateContent(prompt).then(result => {
         const response = result.response;
-        console.log("Response:", response);
+        console.log(response);
         const generatedText = response.text();
         res.status(200).json({ generatedText });
     }).catch(error => {
-        console.error("API Error:", error);
-        res.status(500).json({ success: false, message: 'Internal server error', error: error.message });
-    });    
+        res.status(500).json({ success: false, message: 'Internal server error', error: error });
+    })
 });
 
 //GET GENERATE THEORY
